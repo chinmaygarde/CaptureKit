@@ -110,6 +110,12 @@ static const CGFloat CKScreenRecorderHUDInset = 10.0;
     self.frame = CGRectMake(0.0, 0.0, orientedScreenSize.width, orientedScreenSize.height);
 }
 
+-(UIView *) hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *hitTest = [super hitTest:point withEvent:event];
+    
+    return (hitTest == self) ? nil : hitTest;
+}
+
 -(void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
