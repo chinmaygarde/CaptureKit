@@ -18,14 +18,15 @@ static const int32_t CKScreenRecorderTimebase = 30;
     AVAssetWriter *_writer;
     AVAssetWriterInputPixelBufferAdaptor *_writerInputAdaptor;
     
+    NSURL *_completedCaptureURL;
+    CKScreenRecorderCallback _writeToFileCallback;
+    
     CGSize _videoSize;
 }
 
 -(void) startRecording:(CKScreenRecorderCallback) completion {
-    if (_targetView == nil) {
-        // A target view must be assigned
-        completion(NO);
-    }
+    
+    NSAssert(self.state == CKScreenRecorderReady, @"The recorder must be ready before attempting to start recording");
     
     CGSize size = _targetView.bounds.size;
     CGFloat scale = [UIScreen mainScreen].scale;
@@ -34,12 +35,18 @@ static const int32_t CKScreenRecorderTimebase = 30;
     _captureQueue = dispatch_queue_create("com.capturekit.recorder", DISPATCH_QUEUE_SERIAL);
     
     dispatch_async(_captureQueue, ^{
+
         BOOL startSuccess = [self startRecordingAtSize:_videoSize];
         
-        // All callbacks to user facing APIs are performed on the main queue
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completion(startSuccess);
-        });
+        if (startSuccess)
+            self.state = CKScreenRecorderRecording;
+        
+        if (completion) {
+            // All callbacks to user facing APIs are performed on the main queue
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(startSuccess);
+            });
+        }
     });
 }
 
@@ -95,6 +102,33 @@ static const int32_t CKScreenRecorderTimebase = 30;
     return YES;
 }
 
+-(void)setState:(CKScreenRecorderState) state {
+    if (_state == state)
+        return;
+    
+    if (state < _state) {
+        NSAssert(NO, @"Invalid state transition attempted in the recorder");
+        return;
+    }
+    
+    [self willChangeValueForKey:@"state"];
+    
+    _state = state;
+    
+    [self didChangeValueForKey:@"state"];
+}
+
+-(void) setTargetView:(UIView *)targetView {
+    NSAssert(self.state == CKScreenRecorderNotSetup, @"Cannot change the recorder target view once it is setup");
+    
+    if (_targetView == targetView)
+        return;
+    
+    _targetView = targetView;
+    
+    self.state = CKScreenRecorderReady;
+}
+
 -(void) setupTimerOnCaptureQueue {
     NSAssert(_captureQueue, @"The capture queue must already be setup");
     
@@ -109,24 +143,48 @@ static const int32_t CKScreenRecorderTimebase = 30;
     dispatch_resume(_captureTimer);
 }
 
--(BOOL) cleanupResources {
-    
-    BOOL cleanupSuccess = NO;
+-(void) cleanupResources {
     
     if (_writer.outputURL) {
-        NSError *fileCleanupError = nil;
-        
-        [[NSFileManager defaultManager] removeItemAtURL: _writer.outputURL error: &fileCleanupError];
-        
-        cleanupSuccess = (fileCleanupError == nil);
+        _completedCaptureURL = [_writer.outputURL copy];
     }
     
     _writer = nil;
     _writerInputAdaptor = nil;
     
     dispatch_suspend(_captureTimer);
+}
+
+-(void) writeToVideoLibrary:(CKScreenRecorderCallback) callback {
     
-    return cleanupSuccess;
+    if (_completedCaptureURL == nil) {
+        callback(NO);
+        self.state = CKScreenRecorderFinished;
+        return;
+    }
+    
+    if (!UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(_completedCaptureURL.path)) {
+        callback(NO);
+        self.state = CKScreenRecorderFinished;
+        return;
+    }
+    
+    _writeToFileCallback = callback;
+    
+    UISaveVideoAtPathToSavedPhotosAlbum(_completedCaptureURL.path, self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
+    
+    _completedCaptureURL = nil;
+}
+
+-(void) video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    
+    self.state = CKScreenRecorderFinished;
+    
+    if (_writeToFileCallback == nil)
+        return;
+    
+    _writeToFileCallback(error != nil);
+    _writeToFileCallback = nil;
 }
 
 -(void) captureFrame {
@@ -182,19 +240,40 @@ static const int32_t CKScreenRecorderTimebase = 30;
     CVPixelBufferRelease(pixelBuffer);
 }
 
--(void) endRecordingWithCompletionHandler:(CKScreenRecorderCallback) completion {
-    // FIXME: Check for invalid state transitions
+-(void) stopRecording:(CKScreenRecorderCallback) completion {
+    NSAssert(self.state == CKScreenRecorderRecording, @"The recording must be ongoing to stop the same");
     
     [_writerInputAdaptor.assetWriterInput markAsFinished];
-    [_writer finishWritingWithCompletionHandler:^{
-        BOOL writerSuccess = (_writer.status == AVAssetWriterStatusCompleted);
-        BOOL cleanupSuccess = [self cleanupResources];
 
-        // All callbacks to user facing APIs are performed on the main queue
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completion(writerSuccess && cleanupSuccess);
-        });
+    [_writer finishWritingWithCompletionHandler:^{
+    
+        BOOL writerSuccess = (_writer.status == AVAssetWriterStatusCompleted);
+        
+        [self cleanupResources];
+
+        if (writerSuccess) {
+
+            self.state = CKScreenRecorderFinishing;
+
+            [self writeToVideoLibrary: completion];
+
+        } else {
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(writerSuccess /* NO */);
+            });
+            
+        }
     }];
+}
+
+-(void) dealloc {
+    if (_completedCaptureURL) {
+        // If for some reason the recorder is being collected without the
+        // temporary file being written to the album, clean it up
+
+        [[NSFileManager defaultManager] removeItemAtURL: _completedCaptureURL error: nil];
+    }
 }
 
 @end

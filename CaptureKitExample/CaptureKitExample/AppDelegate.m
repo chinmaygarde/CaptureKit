@@ -9,6 +9,12 @@
 #import "AppDelegate.h"
 #import <CaptureKit/CaptureKit.h>
 
+@interface AppDelegate ()
+
+@property (nonatomic, strong) CKScreenRecorderHUD *hud;
+
+@end
+
 @implementation AppDelegate
 
 -(BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -19,25 +25,12 @@
     
     [self addSubviews];
     
-    [self recordWindow];
+    self.hud = [[CKScreenRecorderHUD alloc] init];
+    self.hud.targetView = self.window;
     
     [self.window makeKeyAndVisible];
     
     return YES;
-}
-
--(void) recordWindow {
-    CKScreenRecorder *recorder = [[CKScreenRecorder alloc] init];
-    
-    recorder.targetView = self.window;
-    
-    [recorder startRecording:^(BOOL success) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [recorder endRecordingWithCompletionHandler:^(BOOL success) {
-                NSLog(@"Completed Recording %d", success);
-            }];
-        });
-    }];
 }
 
 -(void) addSubviews {

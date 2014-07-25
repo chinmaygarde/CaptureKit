@@ -17,6 +17,11 @@
 		EACFC6FB1980F15C0057539C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EACFC6FA1980F15C0057539C /* CoreVideo.framework */; };
 		EACFC6FD1980F1640057539C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EACFC6FC1980F1640057539C /* CoreMedia.framework */; };
 		EACFC7041982108F0057539C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EACFC7031982108F0057539C /* UIKit.framework */; };
+		EACFC70719823DCC0057539C /* CKScreenRecorderHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = EACFC70519823DCC0057539C /* CKScreenRecorderHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EACFC70819823DCC0057539C /* CKScreenRecorderHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EACFC70619823DCC0057539C /* CKScreenRecorderHUD.m */; };
+		EACFC70C1982493E0057539C /* CKPlaybackControlsView.h in Headers */ = {isa = PBXBuildFile; fileRef = EACFC70A1982493E0057539C /* CKPlaybackControlsView.h */; };
+		EACFC70D1982493E0057539C /* CKPlaybackControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = EACFC70B1982493E0057539C /* CKPlaybackControlsView.m */; };
+		EACFC70E19825AED0057539C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EACFC7031982108F0057539C /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +90,10 @@
 		EACFC6FA1980F15C0057539C /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		EACFC6FC1980F1640057539C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		EACFC7031982108F0057539C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EACFC70519823DCC0057539C /* CKScreenRecorderHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKScreenRecorderHUD.h; sourceTree = "<group>"; };
+		EACFC70619823DCC0057539C /* CKScreenRecorderHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKScreenRecorderHUD.m; sourceTree = "<group>"; };
+		EACFC70A1982493E0057539C /* CKPlaybackControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKPlaybackControlsView.h; sourceTree = "<group>"; };
+		EACFC70B1982493E0057539C /* CKPlaybackControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKPlaybackControlsView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EACFC70E19825AED0057539C /* UIKit.framework in Frameworks */,
 				EA63832A197CB7CD00353212 /* CaptureKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				EA638320197CB7CD00353212 /* CaptureKit */,
+				EA638321197CB7CD00353212 /* Supporting Files */,
 				EA63832D197CB7CD00353212 /* CaptureKitTests */,
 				EACFC6F91980F14F0057539C /* Frameworks */,
 				EA63831F197CB7CD00353212 /* Products */,
@@ -133,10 +144,12 @@
 		EA638320197CB7CD00353212 /* CaptureKit */ = {
 			isa = PBXGroup;
 			children = (
+				EACFC709198243220057539C /* HUD Components */,
 				EA638323197CB7CD00353212 /* CaptureKit.h */,
 				EA63833A197CB85100353212 /* CKScreenRecorder.h */,
 				EA63833B197CB85100353212 /* CKScreenRecorder.m */,
-				EA638321197CB7CD00353212 /* Supporting Files */,
+				EACFC70519823DCC0057539C /* CKScreenRecorderHUD.h */,
+				EACFC70619823DCC0057539C /* CKScreenRecorderHUD.m */,
 			);
 			path = CaptureKit;
 			sourceTree = "<group>";
@@ -147,6 +160,7 @@
 				EA638322197CB7CD00353212 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			path = CaptureKit;
 			sourceTree = "<group>";
 		};
 		EA63832D197CB7CD00353212 /* CaptureKitTests */ = {
@@ -178,6 +192,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EACFC709198243220057539C /* HUD Components */ = {
+			isa = PBXGroup;
+			children = (
+				EACFC70A1982493E0057539C /* CKPlaybackControlsView.h */,
+				EACFC70B1982493E0057539C /* CKPlaybackControlsView.m */,
+			);
+			name = "HUD Components";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -187,6 +210,8 @@
 			files = (
 				EA63833C197CB85100353212 /* CKScreenRecorder.h in Headers */,
 				EA638324197CB7CD00353212 /* CaptureKit.h in Headers */,
+				EACFC70C1982493E0057539C /* CKPlaybackControlsView.h in Headers */,
+				EACFC70719823DCC0057539C /* CKScreenRecorderHUD.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +319,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA63833D197CB85100353212 /* CKScreenRecorder.m in Sources */,
+				EACFC70D1982493E0057539C /* CKPlaybackControlsView.m in Sources */,
+				EACFC70819823DCC0057539C /* CKScreenRecorderHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
