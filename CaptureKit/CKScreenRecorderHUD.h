@@ -13,6 +13,4 @@
 
 @property (nonatomic, weak) IBOutlet UIView *targetView;
 
-@property (nonatomic, readonly) CKScreenRecorder *recorder;
-
 @end

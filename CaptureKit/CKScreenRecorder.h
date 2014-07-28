@@ -17,7 +17,8 @@ typedef NS_ENUM(NSUInteger, CKScreenRecorderState) {
     CKScreenRecorderRecording,
     
     CKScreenRecorderFinishing,
-    CKScreenRecorderFinished
+    CKScreenRecorderFinished,
+    CKScreenRecorderFailed,
 };
 
 typedef void(^CKScreenRecorderCallback)(BOOL success);
@@ -25,7 +26,9 @@ typedef void(^CKScreenRecorderCallback)(BOOL success);
 @interface CKScreenRecorder : NSObject
 
 @property (nonatomic, weak) UIView *targetView;
+
 @property (nonatomic, readonly) NSUInteger capturedFrames;
+@property (nonatomic, readonly) NSTimeInterval capturedInterval;
 
 @property (nonatomic, readonly) CKScreenRecorderState state;
 

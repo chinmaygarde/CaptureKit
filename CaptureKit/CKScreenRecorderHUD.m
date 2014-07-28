@@ -11,7 +11,7 @@
 
 static const CGFloat CKScreenRecorderHUDInset = 10.0;
 
-@interface CKScreenRecorderHUD () <CKPlaybackControlsViewDelegate>
+@interface CKScreenRecorderHUD ()
 
 @property (nonatomic, readwrite, strong) CKScreenRecorder *recorder;
 
@@ -34,7 +34,7 @@ static const CGFloat CKScreenRecorderHUDInset = 10.0;
     self.recorder = [[CKScreenRecorder alloc] init];
 
     self.controls = [[CKPlaybackControlsView alloc] init];
-    self.controls.delegate = self;
+    self.controls.recorder = self.recorder;
 
     [self addSubview:self.controls];
     
@@ -67,19 +67,6 @@ static const CGFloat CKScreenRecorderHUDInset = 10.0;
 
 -(UIView *) targetView {
     return self.recorder.targetView;
-}
-
--(void) playbackControlsDidToggleRecording:(CKPlaybackControlsView *)controls {
-    switch (self.recorder.state) {
-        case CKScreenRecorderReady:
-            [self.recorder startRecording:nil];
-            break;
-        case CKScreenRecorderRecording:
-            [self.recorder stopRecording:nil];
-            break;
-        default:
-            break;
-    }
 }
 
 -(void) layoutSubviews {

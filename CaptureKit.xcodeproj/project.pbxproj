@@ -22,6 +22,18 @@
 		EACFC70C1982493E0057539C /* CKPlaybackControlsView.h in Headers */ = {isa = PBXBuildFile; fileRef = EACFC70A1982493E0057539C /* CKPlaybackControlsView.h */; };
 		EACFC70D1982493E0057539C /* CKPlaybackControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = EACFC70B1982493E0057539C /* CKPlaybackControlsView.m */; };
 		EACFC70E19825AED0057539C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EACFC7031982108F0057539C /* UIKit.framework */; };
+		EACFC72D198464710057539C /* CKCancel.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC722198464710057539C /* CKCancel.png */; };
+		EACFC72E198464710057539C /* CKCancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC723198464710057539C /* CKCancel@2x.png */; };
+		EACFC72F198464710057539C /* CKContract.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC724198464710057539C /* CKContract.png */; };
+		EACFC730198464710057539C /* CKContract@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC725198464710057539C /* CKContract@2x.png */; };
+		EACFC731198464710057539C /* CKExpand.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC726198464710057539C /* CKExpand.png */; };
+		EACFC732198464710057539C /* CKExpand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC727198464710057539C /* CKExpand@2x.png */; };
+		EACFC733198464710057539C /* CKPause.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC728198464710057539C /* CKPause.png */; };
+		EACFC734198464710057539C /* CKPause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC729198464710057539C /* CKPause@2x.png */; };
+		EACFC735198464710057539C /* CKPlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC72A198464710057539C /* CKPlay@2x.png */; };
+		EACFC736198464710057539C /* CKStop.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC72B198464710057539C /* CKStop.png */; };
+		EACFC737198464710057539C /* CKStop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC72C198464710057539C /* CKStop@2x.png */; };
+		EACFC739198466470057539C /* CKPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC738198466470057539C /* CKPlay.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +106,18 @@
 		EACFC70619823DCC0057539C /* CKScreenRecorderHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKScreenRecorderHUD.m; sourceTree = "<group>"; };
 		EACFC70A1982493E0057539C /* CKPlaybackControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKPlaybackControlsView.h; sourceTree = "<group>"; };
 		EACFC70B1982493E0057539C /* CKPlaybackControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKPlaybackControlsView.m; sourceTree = "<group>"; };
+		EACFC722198464710057539C /* CKCancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CKCancel.png; sourceTree = "<group>"; };
+		EACFC723198464710057539C /* CKCancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CKCancel@2x.png"; sourceTree = "<group>"; };
+		EACFC724198464710057539C /* CKContract.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CKContract.png; sourceTree = "<group>"; };
+		EACFC725198464710057539C /* CKContract@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CKContract@2x.png"; sourceTree = "<group>"; };
+		EACFC726198464710057539C /* CKExpand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CKExpand.png; sourceTree = "<group>"; };
+		EACFC727198464710057539C /* CKExpand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CKExpand@2x.png"; sourceTree = "<group>"; };
+		EACFC728198464710057539C /* CKPause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CKPause.png; sourceTree = "<group>"; };
+		EACFC729198464710057539C /* CKPause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CKPause@2x.png"; sourceTree = "<group>"; };
+		EACFC72A198464710057539C /* CKPlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CKPlay@2x.png"; sourceTree = "<group>"; };
+		EACFC72B198464710057539C /* CKStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CKStop.png; sourceTree = "<group>"; };
+		EACFC72C198464710057539C /* CKStop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CKStop@2x.png"; sourceTree = "<group>"; };
+		EACFC738198466470057539C /* CKPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CKPlay.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +150,7 @@
 			children = (
 				EA638320197CB7CD00353212 /* CaptureKit */,
 				EA638321197CB7CD00353212 /* Supporting Files */,
+				EACFC721198464710057539C /* Assets */,
 				EA63832D197CB7CD00353212 /* CaptureKitTests */,
 				EACFC6F91980F14F0057539C /* Frameworks */,
 				EA63831F197CB7CD00353212 /* Products */,
@@ -199,6 +224,26 @@
 				EACFC70B1982493E0057539C /* CKPlaybackControlsView.m */,
 			);
 			name = "HUD Components";
+			sourceTree = "<group>";
+		};
+		EACFC721198464710057539C /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				EACFC722198464710057539C /* CKCancel.png */,
+				EACFC723198464710057539C /* CKCancel@2x.png */,
+				EACFC724198464710057539C /* CKContract.png */,
+				EACFC725198464710057539C /* CKContract@2x.png */,
+				EACFC726198464710057539C /* CKExpand.png */,
+				EACFC727198464710057539C /* CKExpand@2x.png */,
+				EACFC728198464710057539C /* CKPause.png */,
+				EACFC729198464710057539C /* CKPause@2x.png */,
+				EACFC738198466470057539C /* CKPlay.png */,
+				EACFC72A198464710057539C /* CKPlay@2x.png */,
+				EACFC72B198464710057539C /* CKStop.png */,
+				EACFC72C198464710057539C /* CKStop@2x.png */,
+			);
+			name = Assets;
+			path = CaptureKit/Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,6 +346,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EACFC732198464710057539C /* CKExpand@2x.png in Resources */,
+				EACFC737198464710057539C /* CKStop@2x.png in Resources */,
+				EACFC731198464710057539C /* CKExpand.png in Resources */,
+				EACFC733198464710057539C /* CKPause.png in Resources */,
+				EACFC72E198464710057539C /* CKCancel@2x.png in Resources */,
+				EACFC72F198464710057539C /* CKContract.png in Resources */,
+				EACFC730198464710057539C /* CKContract@2x.png in Resources */,
+				EACFC72D198464710057539C /* CKCancel.png in Resources */,
+				EACFC735198464710057539C /* CKPlay@2x.png in Resources */,
+				EACFC739198466470057539C /* CKPlay.png in Resources */,
+				EACFC734198464710057539C /* CKPause@2x.png in Resources */,
+				EACFC736198464710057539C /* CKStop.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

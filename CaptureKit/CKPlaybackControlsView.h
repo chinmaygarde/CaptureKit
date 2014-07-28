@@ -7,17 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class CKPlaybackControlsView;
-@protocol CKPlaybackControlsViewDelegate <NSObject>
-
-@required
--(void) playbackControlsDidToggleRecording:(CKPlaybackControlsView *) controls;
-
-@end
+#import <CaptureKit/CaptureKit.h>
 
 @interface CKPlaybackControlsView : UIView
 
-@property (nonatomic, weak) id<CKPlaybackControlsViewDelegate> delegate;
+@property (nonatomic, weak) CKScreenRecorder *recorder;
 
 @end

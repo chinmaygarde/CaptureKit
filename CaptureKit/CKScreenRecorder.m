@@ -9,6 +9,15 @@
 #import "CKScreenRecorder.h"
 #import <AVFoundation/AVFoundation.h>
 
+void CKScreenRecorderCallbackPerform(CKScreenRecorderCallback callback, BOOL success) {
+    if (callback == nil)
+        return;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        callback(success);
+    });
+}
+
 static const int32_t CKScreenRecorderTimebase = 30;
 
 @implementation CKScreenRecorder {
@@ -40,13 +49,8 @@ static const int32_t CKScreenRecorderTimebase = 30;
         
         if (startSuccess)
             self.state = CKScreenRecorderRecording;
-        
-        if (completion) {
-            // All callbacks to user facing APIs are performed on the main queue
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(startSuccess);
-            });
-        }
+
+        CKScreenRecorderCallbackPerform(completion, startSuccess);
     });
 }
 
@@ -111,11 +115,7 @@ static const int32_t CKScreenRecorderTimebase = 30;
         return;
     }
     
-    [self willChangeValueForKey:@"state"];
-    
     _state = state;
-    
-    [self didChangeValueForKey:@"state"];
 }
 
 -(void) setTargetView:(UIView *)targetView {
@@ -153,19 +153,20 @@ static const int32_t CKScreenRecorderTimebase = 30;
     _writerInputAdaptor = nil;
     
     dispatch_suspend(_captureTimer);
+    dispatch_source_cancel(_captureTimer);
 }
 
 -(void) writeToVideoLibrary:(CKScreenRecorderCallback) callback {
     
     if (_completedCaptureURL == nil) {
-        callback(NO);
-        self.state = CKScreenRecorderFinished;
+        CKScreenRecorderCallbackPerform(callback, NO);
+        self.state = CKScreenRecorderFailed;
         return;
     }
     
     if (!UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(_completedCaptureURL.path)) {
-        callback(NO);
-        self.state = CKScreenRecorderFinished;
+        CKScreenRecorderCallbackPerform(callback, NO);
+        self.state = CKScreenRecorderFailed;
         return;
     }
     
@@ -180,10 +181,8 @@ static const int32_t CKScreenRecorderTimebase = 30;
     
     self.state = CKScreenRecorderFinished;
     
-    if (_writeToFileCallback == nil)
-        return;
+    CKScreenRecorderCallbackPerform(_writeToFileCallback, error != nil);
     
-    _writeToFileCallback(error != nil);
     _writeToFileCallback = nil;
 }
 
@@ -192,6 +191,11 @@ static const int32_t CKScreenRecorderTimebase = 30;
     AVAssetWriterInput *writerInput = _writerInputAdaptor.assetWriterInput;
     
     if (!writerInput.isReadyForMoreMediaData) {
+        // Drop the frame
+        return;
+    }
+    
+    if (_writerInputAdaptor.pixelBufferPool == NULL) {
         // Drop the frame
         return;
     }
@@ -235,7 +239,11 @@ static const int32_t CKScreenRecorderTimebase = 30;
     
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
     
-    [_writerInputAdaptor appendPixelBuffer:pixelBuffer withPresentationTime:CMTimeMake(_capturedFrames ++, CKScreenRecorderTimebase)];
+    if([_writerInputAdaptor appendPixelBuffer:pixelBuffer withPresentationTime:CMTimeMake(_capturedFrames + 1, CKScreenRecorderTimebase)]) {
+        // If writing was successful, update the book-keeping
+        _capturedFrames ++;
+        _capturedInterval = _capturedFrames / CKScreenRecorderTimebase;
+    }
     
     CVPixelBufferRelease(pixelBuffer);
 }
@@ -259,15 +267,17 @@ static const int32_t CKScreenRecorderTimebase = 30;
 
         } else {
 
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(writerSuccess /* NO */);
-            });
+            self.state = CKScreenRecorderFailed;
+            
+            CKScreenRecorderCallbackPerform(completion, NO);
             
         }
     }];
 }
 
 -(void) dealloc {
+    [self cleanupResources];
+    
     if (_completedCaptureURL) {
         // If for some reason the recorder is being collected without the
         // temporary file being written to the album, clean it up
