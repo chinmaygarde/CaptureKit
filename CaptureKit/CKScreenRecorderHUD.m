@@ -81,9 +81,11 @@ static const CGFloat CKScreenRecorderHUDInset = 10.0;
     
     CGSize controlsSize = [controls sizeThatFits:CGSizeMake(0.0, 0.0)];
     
-    controls.frame = CGRectMake((boundsSize.width - controlsSize.width) / 2.0,
-                                 boundsSize.height - controlsSize.height - CKScreenRecorderHUDInset,
-                                 controlsSize.width, controlsSize.height);
+    if (CGPointEqualToPoint(controls.center, CGPointZero)) {
+        controls.frame = CGRectMake((boundsSize.width - controlsSize.width) / 2.0,
+                                    boundsSize.height - controlsSize.height - CKScreenRecorderHUDInset,
+                                    controlsSize.width, controlsSize.height);
+    }
 }
 
 -(void) onPanControls:(UIPanGestureRecognizer *) pan {
