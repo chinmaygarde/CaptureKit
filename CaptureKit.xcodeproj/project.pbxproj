@@ -34,6 +34,7 @@
 		EACFC736198464710057539C /* CKStop.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC72B198464710057539C /* CKStop.png */; };
 		EACFC737198464710057539C /* CKStop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC72C198464710057539C /* CKStop@2x.png */; };
 		EACFC739198466470057539C /* CKPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = EACFC738198466470057539C /* CKPlay.png */; };
+		EACFC73B198792F90057539C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EACFC73A198792F90057539C /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		EACFC72B198464710057539C /* CKStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CKStop.png; sourceTree = "<group>"; };
 		EACFC72C198464710057539C /* CKStop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CKStop@2x.png"; sourceTree = "<group>"; };
 		EACFC738198466470057539C /* CKPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CKPlay.png; sourceTree = "<group>"; };
+		EACFC73A198792F90057539C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EACFC73B198792F90057539C /* QuartzCore.framework in Frameworks */,
 				EACFC7041982108F0057539C /* UIKit.framework in Frameworks */,
 				EACFC6FD1980F1640057539C /* CoreMedia.framework in Frameworks */,
 				EACFC6FB1980F15C0057539C /* CoreVideo.framework in Frameworks */,
@@ -208,6 +211,7 @@
 		EACFC6F91980F14F0057539C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EACFC73A198792F90057539C /* QuartzCore.framework */,
 				EACFC7031982108F0057539C /* UIKit.framework */,
 				EACFC6FC1980F1640057539C /* CoreMedia.framework */,
 				EACFC6FA1980F15C0057539C /* CoreVideo.framework */,

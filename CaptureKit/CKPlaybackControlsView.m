@@ -9,7 +9,7 @@
 #import "CKPlaybackControlsView.h"
 
 static const CGSize CKPlaybackControlsButtonSize = { 30.0, 30.0 };
-static const CGSize CKPlaybackControlsViewMinimumSize = { 300.0, 44.0 };
+static const CGSize CKPlaybackControlsViewMinimumSize = { 240.0, 38.0 };
 static const CGFloat CKPlaybackControlsInset = 10.0;
 
 @interface CKPlaybackControlsView ()
@@ -33,8 +33,7 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
     _timeFormatter = [[NSDateFormatter alloc] init];
     [_timeFormatter setDateFormat:@"mm:ss"];
     
-    self.layer.cornerRadius = 10;
-    self.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.85];
+    [self setupAppearance];
     
     self.timeLabel = [[UILabel alloc] init];
     self.timeLabel.textColor = [UIColor whiteColor];
@@ -76,6 +75,32 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
     }
     
     return self;
+}
+
+-(void) setupAppearance {
+    CAGradientLayer *layer = (CAGradientLayer *)self.layer;
+
+    layer.colors = @[
+        (id)[UIColor colorWithWhite:0.6 alpha:1.0].CGColor,
+        (id)[UIColor colorWithWhite:0.23 alpha:1.0].CGColor,
+        (id)[UIColor colorWithWhite:0.102 alpha:1.0].CGColor,
+        (id)[UIColor colorWithWhite:0.0 alpha:1.0].CGColor,
+    ];
+    
+    layer.locations = @[
+        @(0.0),
+        @(0.05),
+        @(0.5),
+        @(1.0),
+    ];
+    
+    layer.cornerRadius = 5.0;
+
+    layer.borderColor = [UIColor darkGrayColor].CGColor;
+    
+    layer.borderWidth = 1.0;
+    
+    layer.opacity = 0.975;
 }
 
 -(void) setRecorder:(CKScreenRecorder *)recorder {
@@ -190,6 +215,10 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
 -(CGSize) sizeThatFits:(CGSize)size {
     return CGSizeMake(MAX(CKPlaybackControlsViewMinimumSize.width, size.width),
                       MAX(CKPlaybackControlsViewMinimumSize.height, size.height));
+}
+
++(Class) layerClass {
+    return [CAGradientLayer class];
 }
 
 -(void) dealloc {
