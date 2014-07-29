@@ -9,7 +9,8 @@
 #import "CKPlaybackControlsView.h"
 
 static const CGSize CKPlaybackControlsButtonSize = { 30.0, 30.0 };
-static const CGSize CKPlaybackControlsViewMinimumSize = { 240.0, 38.0 };
+static const CGSize CKPlaybackControlsViewExpandedSize = { 240.0, 38.0 };
+static const CGSize CKPlaybackControlsViewContractedSize = { 38.0, 38.0 };
 static const CGFloat CKPlaybackControlsInset = 10.0;
 
 @interface CKPlaybackControlsView ()
@@ -165,7 +166,14 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
     [self.expandCollapseButton setImage: [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil]
                                forState: UIControlStateNormal];
     
-    [self setNeedsLayout];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        CGRect bounds = CGRectZero;
+        
+        bounds.size = _isCollapsed ? CKPlaybackControlsViewContractedSize : CKPlaybackControlsViewExpandedSize;
+        
+        self.bounds = bounds;
+    }];
 }
 
 -(void) startRecording {
@@ -200,6 +208,9 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
     
     const CGRect bounds = self.bounds;
     
+    self.recordButton.hidden = _isCollapsed;
+    self.timeLabel.hidden = _isCollapsed;
+    
     self.recordButton.bounds = CGRectMake(0.0, 0.0, CKPlaybackControlsButtonSize.width, CKPlaybackControlsButtonSize.height);
     self.recordButton.center = CGPointMake(bounds.size.width / 2.0, bounds.size.height / 2.0);
     
@@ -213,8 +224,7 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
 }
 
 -(CGSize) sizeThatFits:(CGSize)size {
-    return CGSizeMake(MAX(CKPlaybackControlsViewMinimumSize.width, size.width),
-                      MAX(CKPlaybackControlsViewMinimumSize.height, size.height));
+    return _isCollapsed ? CKPlaybackControlsViewContractedSize : CKPlaybackControlsViewExpandedSize;
 }
 
 +(Class) layerClass {
