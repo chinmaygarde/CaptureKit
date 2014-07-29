@@ -217,10 +217,15 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
     const CGSize timeBounds = [self.timeLabel sizeThatFits:bounds.size];
     self.timeLabel.frame = CGRectMake(CKPlaybackControlsInset, (bounds.size.height - timeBounds.height) / 2.0, timeBounds.width, timeBounds.height);
     
-    self.expandCollapseButton.frame = CGRectMake(bounds.size.width - CKPlaybackControlsInset - CKPlaybackControlsButtonSize.width,
-                                                (bounds.size.height - CKPlaybackControlsButtonSize.height) / 2.0,
-                                                CKPlaybackControlsButtonSize.width,
-                                                CKPlaybackControlsButtonSize.height);
+    
+    if (_isCollapsed) {
+        self.expandCollapseButton.center = CGPointMake(bounds.size.width / 2.0, bounds.size.height / 2.0);
+    } else {
+        self.expandCollapseButton.frame = CGRectMake(bounds.size.width - CKPlaybackControlsInset - CKPlaybackControlsButtonSize.width,
+                                                     (bounds.size.height - CKPlaybackControlsButtonSize.height) / 2.0,
+                                                     CKPlaybackControlsButtonSize.width,
+                                                     CKPlaybackControlsButtonSize.height);
+    }
 }
 
 -(CGSize) sizeThatFits:(CGSize)size {
