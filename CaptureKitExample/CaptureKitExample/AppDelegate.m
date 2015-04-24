@@ -60,6 +60,10 @@
     [view addSubview:subview];
     
     [self.window addSubview:view];
+
+    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 30, screenSize.width - 20, screenSize.height * 0.20)];
+    textView.text = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo";
+    [self.window addSubview:textView];
 }
 
 @end
