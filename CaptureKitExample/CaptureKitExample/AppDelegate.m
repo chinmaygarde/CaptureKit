@@ -17,15 +17,23 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     [self addSubviews];
-    
+
+    /*
+     *  Create the recorder HUD and specify that we want to record everything
+     *  in this window
+     */
     self.hud = [[CKScreenRecorderHUD alloc] init];
     self.hud.targetView = self.window;
-    
+
     [self.window makeKeyAndVisible];
     
     return YES;
 }
 
+/**
+ *  Add a few views with animations for the demo. The window is the view being
+ *  recorded
+ */
 -(void) addSubviews {
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
@@ -62,7 +70,11 @@
     [self.window addSubview:view];
 
     UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 30, screenSize.width - 20, screenSize.height * 0.20)];
-    textView.text = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo";
+
+    textView.text = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor "
+    "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
+    "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo";
+
     [self.window addSubview:textView];
 }
 
