@@ -6,8 +6,6 @@ static const CGFloat CKScreenRecorderHUDInset = 10.0;
 
 @interface CKScreenRecorderHUD ()
 
-@property (nonatomic, readwrite, strong) CKScreenRecorder *recorder;
-
 @property (nonatomic, strong) CKPlaybackControlsView *controls;
 
 @end
@@ -25,11 +23,8 @@ static const CGFloat CKScreenRecorderHUDInset = 10.0;
                                                object: [UIDevice currentDevice]];
     
     self.hidden = NO;
-    
-    self.recorder = [[CKScreenRecorder alloc] init];
 
     self.controls = [[CKPlaybackControlsView alloc] init];
-    self.controls.recorder = self.recorder;
 
     [self addSubview:self.controls];
     
@@ -60,11 +55,11 @@ static const CGFloat CKScreenRecorderHUDInset = 10.0;
 }
 
 -(void) setTargetView:(UIView *)targetView {
-    self.recorder.targetView = targetView;
+    self.controls.recorder.targetView = targetView;
 }
 
 -(UIView *) targetView {
-    return self.recorder.targetView;
+    return self.controls.recorder.targetView;
 }
 
 -(void) layoutSubviews {

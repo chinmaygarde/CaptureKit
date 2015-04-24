@@ -4,6 +4,6 @@
 
 @interface CKPlaybackControlsView : UIView
 
-@property (nonatomic, weak) CKScreenRecorder *recorder;
+@property (nonatomic, readonly, strong) CKScreenRecorder *recorder;
 
 @end

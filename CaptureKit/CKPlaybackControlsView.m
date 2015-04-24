@@ -41,6 +41,8 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
     [self.recordButton addTarget:self action:@selector(recordButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     self.expandCollapseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.expandCollapseButton.imageEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
+
     [self.expandCollapseButton setImage: [UIImage imageNamed:@"CKContract" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil]
                                forState: UIControlStateNormal];
     
@@ -49,6 +51,8 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
     [self addSubview:self.timeLabel];
     [self addSubview:self.recordButton];
     [self addSubview:self.expandCollapseButton];
+
+    [self setRecorder:[[CKScreenRecorder alloc] init]];
 }
 
 -(instancetype) initWithFrame:(CGRect)frame {
@@ -102,6 +106,8 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
         return;
     
     [_recorder removeObserver:self forKeyPath:@"state"];
+
+    recorder.targetView = _recorder.targetView;
     
     _recorder = recorder;
     
@@ -188,13 +194,26 @@ static const CGFloat CKPlaybackControlsInset = 10.0;
 }
 
 -(void) stopRecording {
+    self.recordButton.enabled = NO;
+
     [self.recordButton setImage: [UIImage imageNamed:@"CKPlay" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil]
                        forState: UIControlStateNormal];
     
     [self.updateTimer invalidate];
     self.updateTimer = nil;
-    
-    [self.recorder stopRecording:nil];
+
+    [self.recorder stopRecording:^(BOOL success) {
+        [self resetRecording];
+    }];
+}
+
+-(void) resetRecording {
+    self.recordButton.enabled = YES;
+    self.timeLabel.hidden = YES;
+    self.timeLabel.text = @"";
+    [self setRecorder:[[CKScreenRecorder alloc] init]];
+
+    [self setNeedsLayout];
 }
 
 -(void) layoutSubviews {
