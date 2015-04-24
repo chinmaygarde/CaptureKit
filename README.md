@@ -8,6 +8,8 @@ Efficiently capture videos of UIKit hierarchies
 * Captures UIKit hierarchies on a dedicated background thread
 * Avoid unnecessary buffer allocations and minimizes data copies
 
+![CaptureKit](Assets/CaptureKit.gif)
+
 Usage
 -----
 
